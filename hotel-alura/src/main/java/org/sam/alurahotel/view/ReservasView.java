@@ -9,15 +9,13 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.EventQueue;
-
 import javax.swing.JTextField;
+import com.itextpdf.text.xml.XmlToTxt;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.*;
 import java.awt.Toolkit;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
@@ -31,10 +29,7 @@ import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
-
 import org.sam.alurahotel.controller.ReservaController;
 import org.sam.alurahotel.modelo.Reserva;
 import org.sam.alurahotel.view.Disponibilidad;
@@ -51,16 +46,20 @@ public class ReservasView extends JFrame {
 	public static JDateChooser txtFechaEntrada;
 	public static JDateChooser txtFechaSalida;
 	public static JComboBox<String> txtTipoHabitacion;
+	public static JTextField txtNumeroHabitacion;
 	public static JComboBox<String> txtFormaPago;
+	public static JComboBox<String> txtEstadoReserva;
 	int xMouse, yMouse;
 	private JLabel labelExit;
 	private JLabel labelAtras;
-
 	private LocalDate fechaEntrada;
 	private LocalDate fechaSalida;
 	private Long diferenciaDias;
 	private String tipoHabitacion;
 	private Long valor;
+	private String numeroHabitacion;
+	private String estadoReserva;
+
 
 	private ReservaController reservaController;
 
@@ -133,7 +132,7 @@ public class ReservasView extends JFrame {
 		JSeparator separator_1_3 = new JSeparator();
 		separator_1_3.setForeground(new Color(12, 138, 199));
 		separator_1_3.setBackground(new Color(12, 138, 199));
-		separator_1_3.setBounds(68, 453, 289, 2);
+		separator_1_3.setBounds(68, 460, 289, 2);//453
 		panel.add(separator_1_3);
 
 		JSeparator separator_1_1 = new JSeparator();
@@ -162,15 +161,27 @@ public class ReservasView extends JFrame {
 
 		JLabel tipoHabitacion = new JLabel("TIPO DE HABITACION");
 		tipoHabitacion.setForeground(SystemColor.textInactiveText);
-		tipoHabitacion.setBounds(68, 230, 187, 24);
+		tipoHabitacion.setBounds(68, 230, 200, 24);
 		tipoHabitacion.setFont(new Font("Ubuntu", Font.PLAIN, 18));
 		panel.add(tipoHabitacion);
 
-		JLabel lblFormaPago = new JLabel("FORMA DE PAGO");
+		JLabel numeroHabitacion = new JLabel("N° HAB.");
+		numeroHabitacion.setForeground(SystemColor.textInactiveText);
+		numeroHabitacion.setBounds(280, 230, 120, 24);
+		numeroHabitacion.setFont(new Font("Ubuntu", Font.PLAIN, 18));
+		panel.add(numeroHabitacion);
+
+		JLabel lblFormaPago = new JLabel("TIPO DE PAGO");
 		lblFormaPago.setForeground(SystemColor.textInactiveText);
-		lblFormaPago.setBounds(68, 382, 187, 24);
+		lblFormaPago.setBounds(68, 382, 130, 24);
 		lblFormaPago.setFont(new Font("Ubuntu", Font.PLAIN, 18));
 		panel.add(lblFormaPago);
+
+		JLabel lblEstadoReserva = new JLabel("ESTADO DE PAGO");
+		lblEstadoReserva.setForeground(SystemColor.textInactiveText);
+		lblEstadoReserva.setBounds(220, 382, 130, 24);
+		lblEstadoReserva.setFont(new Font("Ubuntu", Font.PLAIN, 18));
+		panel.add(lblEstadoReserva);
 
 
 		JLabel lblTitulo = new JLabel("SISTEMA DE RESERVAS");
@@ -303,7 +314,7 @@ public class ReservasView extends JFrame {
 		lblDisponible.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDisponible.setForeground(Color.WHITE);
 		lblDisponible.setFont(new Font("Ubuntu", Font.PLAIN, 18));
-		lblDisponible.setBounds(0, 0, 130, 35);
+		lblDisponible.setBounds(0, 0, 140, 35);
 
 
 		//Campos que guardaremos en la base de datos
@@ -315,7 +326,7 @@ public class ReservasView extends JFrame {
 		txtFechaEntrada.getCalendarButton().setBounds(268, 0, 21, 33);
 		txtFechaEntrada.setBackground(Color.WHITE);
 		txtFechaEntrada.setBorder(new LineBorder(SystemColor.window));
-		txtFechaEntrada.setDateFormatString("yyyy-MM-dd");
+		txtFechaEntrada.setDateFormatString("dd-MM-yyyy");
 		txtFechaEntrada.setFont(new Font("Ubuntu", Font.PLAIN, 16));
 		panel.add(txtFechaEntrada);
 
@@ -327,7 +338,7 @@ public class ReservasView extends JFrame {
 		txtFechaSalida.setBackground(Color.WHITE);
 		txtFechaSalida.setFont(new Font("Ubuntu", Font.PLAIN, 16));
 
-		txtFechaSalida.setDateFormatString("yyyy-MM-dd");
+		txtFechaSalida.setDateFormatString("dd-MM-yyyy");
 		txtFechaSalida.getCalendarButton().setBackground(new Color(10, 91, 132));
 		txtFechaSalida.setBorder(new LineBorder(new Color(255, 255, 255), 0));
 		panel.add(txtFechaSalida);
@@ -345,7 +356,7 @@ public class ReservasView extends JFrame {
 
 		// Inicialización del JComboBox con tipos de habitación
 		txtTipoHabitacion = new JComboBox();
-		txtTipoHabitacion.setBounds(68, 258, 289, 38);
+		txtTipoHabitacion.setBounds(68, 258, 180, 38);//289
 		txtTipoHabitacion.setBackground(SystemColor.text);
 		txtTipoHabitacion.setBorder(new LineBorder(new Color(255, 255, 255), 1, true));
 		txtTipoHabitacion.setFont(new Font("Ubuntu", Font.PLAIN, 16));
@@ -364,14 +375,39 @@ public class ReservasView extends JFrame {
 			}
 		});
 
+		// Crear el JTextField para que el usuario ingrese el número de habitación
+		txtNumeroHabitacion = new JTextField();
+		txtNumeroHabitacion.setBackground(SystemColor.text);
+		txtNumeroHabitacion.setHorizontalAlignment(SwingConstants.CENTER);
+		txtNumeroHabitacion.setForeground(Color.BLACK);
+		txtNumeroHabitacion.setBounds(270, 258, 80, 33);
+		txtNumeroHabitacion.setFont(new Font("Ubuntu", Font.PLAIN, 16));
+		txtNumeroHabitacion.setBorder(BorderFactory.createEmptyBorder());
+		txtNumeroHabitacion.setEditable(true);
+		panel.add(txtNumeroHabitacion);
+		txtNumeroHabitacion.setColumns(10);
+
 
 		txtFormaPago = new JComboBox();
-		txtFormaPago.setBounds(68, 417, 289, 38);
+		txtFormaPago.setBounds(68, 417, 145, 38);
 		txtFormaPago.setBackground(SystemColor.text);
 		txtFormaPago.setBorder(new LineBorder(new Color(255, 255, 255), 1, true));
 		txtFormaPago.setFont(new Font("Ubuntu", Font.PLAIN, 16));
-		txtFormaPago.setModel(new DefaultComboBoxModel(new String[]{"Tarjeta de Crédito", "Tarjeta de Débito", "Dinero en efectivo"}));
+		txtFormaPago.setModel(new DefaultComboBoxModel(new String[]{"Tarjeta de Crédito", "Tarjeta de Débito", "Dinero en efectivo","-----------------------"}));
 		panel.add(txtFormaPago);
+
+		// Crear el JComboBox
+		txtEstadoReserva = new JComboBox<>();
+		txtEstadoReserva.setBounds(230, 417, 120, 38);
+		txtEstadoReserva.setBackground(SystemColor.text);
+		txtEstadoReserva.setBorder(new LineBorder(new Color(255, 255, 255), 1, true));
+		txtEstadoReserva.setFont(new Font("Ubuntu", Font.PLAIN, 16));
+		txtEstadoReserva.setModel(new DefaultComboBoxModel<>(new String[]{"Pendiente", "Cancelado"}));
+		panel.add(txtEstadoReserva);
+
+
+
+
 
 		JPanel btnsiguiente = new JPanel();
 		JPanel btnDisponibilidad = new JPanel();
@@ -388,7 +424,7 @@ public class ReservasView extends JFrame {
 		labelDispon.setHorizontalAlignment(SwingConstants.CENTER);
 		labelDispon.setForeground(Color.WHITE);
 		labelDispon.setFont(new Font("Ubuntu", Font.PLAIN, 18));
-		labelDispon.setBounds(0, 0, 125, 35);
+		labelDispon.setBounds(0, 0, 135, 35);
 		btnDisponibilidad.add(labelDispon);
 
 
@@ -460,7 +496,7 @@ public class ReservasView extends JFrame {
 		fechaSalida = convertToLocalDateViaInstant(txtFechaSalida.getDate());
 
 		// Calcula la diferencia en días
-		diferenciaDias = ChronoUnit.DAYS.between(fechaEntrada, fechaSalida) + 1;
+		diferenciaDias = ChronoUnit.DAYS.between(fechaEntrada, fechaSalida);
 
 		// Verifica que la fecha de entrada sea anterior o igual a la de salida
 		if (fechaEntrada.compareTo(fechaSalida) <= 0) {
@@ -475,10 +511,10 @@ public class ReservasView extends JFrame {
 					tarifa = 50;
 					break;
 				case "Habitación Doble":
-					tarifa = 80;
+					tarifa = 100;
 					break;
 				case "Habitación Matrimonial":
-					tarifa = 150;
+					tarifa = 200;
 					break;
 				default:
 					JOptionPane.showMessageDialog(null, "Tipo de habitación no válido.");
@@ -489,7 +525,7 @@ public class ReservasView extends JFrame {
 			valor = diferenciaDias * tarifa;
 
 			// Mostrar el valor calculado en el campo de texto
-			txtValor.setText(" $ " + valor);
+			txtValor.setText(" S/. " + valor);
 		} else {
 			// Mostrar mensaje si las fechas no son válidas
 			JOptionPane.showMessageDialog(null, "La fecha de salida debe ser mayor que la fecha de registro...");
@@ -500,7 +536,7 @@ public class ReservasView extends JFrame {
 	// Método guardar Reserva
 	private void guardarReserva() {
 
-		Reserva nuevaReserva = new Reserva(fechaEntrada.toString(), fechaSalida.toString(), valor, (String) txtTipoHabitacion.getSelectedItem(), (String) txtFormaPago.getSelectedItem());
+		Reserva nuevaReserva = new Reserva(fechaEntrada.toString(), fechaSalida.toString(), valor, (String) txtTipoHabitacion.getSelectedItem(),(String) txtNumeroHabitacion.getText(), (String) txtFormaPago.getSelectedItem(), (String) txtEstadoReserva.getSelectedItem());
 		this.reservaController.guardar(nuevaReserva);
 
 		dispose();

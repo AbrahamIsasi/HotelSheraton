@@ -18,7 +18,7 @@ public class ReservaDao {
 	public void guardar(Reserva reserva) {
 		try {
 			final PreparedStatement statement = con.prepareStatement(
-					"INSERT INTO reservas(fecha_entrada, fecha_salida, valor, tipo_habitacion, forma_pago) VALUES(?, ?, ?, ?, ?);",
+					"INSERT INTO reservas(fecha_entrada, fecha_salida, valor, tipo_habitacion,num_habitacion, forma_pago, id_pago ) VALUES(?, ?, ?, ?, ?, ?, ?);",
 					Statement.RETURN_GENERATED_KEYS
 			);
 
@@ -35,7 +35,10 @@ public class ReservaDao {
 		statement.setString(2, reserva.getFechaSalida());
 		statement.setLong(3, reserva.getValor());
 		statement.setString(4, reserva.getTipoHabitacion());
-		statement.setString(5, reserva.getFormaPago());
+		statement.setString(5,reserva.getNumeroHabitacion());
+		statement.setString(6, reserva.getFormaPago());
+		statement.setString(7, reserva.getEstadoReserva());
+
 
 		statement.execute();
 
@@ -48,7 +51,7 @@ public class ReservaDao {
 
 	public List<Reserva> listarReservas(String campo) {
 		List<Reserva> resultado = new ArrayList<>();
-		String querySelect = "SELECT id, fecha_entrada, fecha_salida, valor, tipo_habitacion, forma_pago FROM reservas ";
+		String querySelect = "SELECT id, fecha_entrada, fecha_salida, valor, tipo_habitacion, num_habitacion, forma_pago, id_pago FROM reservas ";
 
 		if (!campo.isEmpty()) {
 			querySelect += "WHERE id = ? ";
@@ -70,7 +73,10 @@ public class ReservaDao {
 							resultSet.getString("fecha_salida"),
 							resultSet.getLong("valor"),
 							resultSet.getString("tipo_habitacion"),
-							resultSet.getString("forma_pago")
+							resultSet.getString("num_habitacion"),
+							resultSet.getString("forma_pago"),
+							resultSet.getString("id_pago")
+
 					);
 					resultado.add(fila);
 				}
@@ -81,31 +87,6 @@ public class ReservaDao {
 		return resultado;
 	}
 
-	// Nuevo método para listar todas las reservas sin filtro
-//	public List<Reserva> listarTodasReservas() {
-//		List<Reserva> reservas = new ArrayList<>();
-//		String sql = "SELECT id, fecha_entrada, fecha_salida, valor, tipo_habitacion, forma_pago FROM reservas";
-//
-//		try (PreparedStatement stmt = con.prepareStatement(sql);
-//			 ResultSet rs = stmt.executeQuery()) {
-//
-//			while (rs.next()) {
-//				Reserva reserva = new Reserva(
-//						rs.getLong("id"),
-//						rs.getString("fecha_entrada"),
-//						rs.getString("fecha_salida"),
-//						rs.getLong("valor"),
-//						rs.getString("tipo_habitacion"),
-//						rs.getString("forma_pago")
-//				);
-//				reservas.add(reserva);
-//			}
-//		} catch (SQLException e) {
-//			throw new RuntimeException(e);
-//		}
-//
-//		return reservas;
-//	}
 
 	public List<Reserva> listarTodasReservas() {
 		List<Reserva> reservas = new ArrayList<>();
@@ -120,7 +101,11 @@ public class ReservaDao {
 						rs.getString("fecha_salida"),
 						rs.getLong("valor"),
 						rs.getString("tipo_habitacion"),
-						rs.getString("forma_pago")
+						rs.getString("num_habitacion"),
+						rs.getString("forma_pago"),
+						rs.getString("id_pago")
+
+
 				);
 				reservas.add(reserva);
 			}
@@ -130,10 +115,10 @@ public class ReservaDao {
 		return reservas;
 	}
 
-	public int modificar(String fecha_entrada, String fecha_salida, Double valor, String tipo_habitacion, String forma_pago, Long id) {
+	public int modificar(String fecha_entrada, String fecha_salida, Double valor, String tipo_habitacion, String num_habitacion, String forma_pago, String id_pago, Long id) {
 		try {
 			final PreparedStatement statement = con.prepareStatement(
-					"UPDATE reservas SET fecha_entrada = ?, fecha_salida = ?, valor = ?, tipo_habitacion = ?, forma_pago = ? WHERE id = ?"
+					"UPDATE reservas SET fecha_entrada = ?, fecha_salida = ?, valor = ?, tipo_habitacion = ?, num_habitacion = ?, forma_pago = ?, id_pago = ? WHERE id = ?"
 			);
 
 			try (statement) {
@@ -141,8 +126,10 @@ public class ReservaDao {
 				statement.setString(2, fecha_salida);
 				statement.setDouble(3, valor);
 				statement.setString(4, tipo_habitacion);
-				statement.setString(5, forma_pago);
-				statement.setLong(6, id);
+				statement.setString(5, num_habitacion);
+				statement.setString(6, forma_pago);
+				statement.setString(7, id_pago);
+				statement.setLong(8, id);
 
 				statement.execute();
 				return statement.getUpdateCount();

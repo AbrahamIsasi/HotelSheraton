@@ -47,10 +47,6 @@ public class Busqueda extends JFrame {
 
 
 
-
-	/**
-	 * Launch the application.
-	 */
 	 public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -140,7 +136,9 @@ public class Busqueda extends JFrame {
 		modelo.addColumn("Fecha de salida");
 		modelo.addColumn("Valor Total");
 		modelo.addColumn("Tipo de Habitación");
+		modelo.addColumn("N° Hab.");
 		modelo.addColumn("Tipo de pago");
+		modelo.addColumn(" estado de pago");
 
 		// Método cargar datos de reserva
 		cargarTablaReserva("");
@@ -509,7 +507,10 @@ public class Busqueda extends JFrame {
 				reserva.getFechaSalida(),
 				reserva.getValor(),
 				reserva.getTipoHabitacion(),
-				reserva.getFormaPago()
+				reserva.getNumeroHabitacion(),
+				reserva.getFormaPago(),
+				reserva.getEstadoReserva()
+
 		}));
 	}
 	
@@ -557,9 +558,11 @@ public class Busqueda extends JFrame {
                 String fecha_salida = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 2);
                 Double valor = Double.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 3).toString());
 				String tipo_habitacion =  (String) modelo.getValueAt(tbReservas.getSelectedRow(), 4);
-                String forma_pago =  (String) modelo.getValueAt(tbReservas.getSelectedRow(), 4);
+				String num_habitacion = (String) modelo.getValueAt(tbReservas.getSelectedRow(),5);
+                String forma_pago =  (String) modelo.getValueAt(tbReservas.getSelectedRow(), 6);
+				String id_pago =  (String) modelo.getValueAt(tbReservas.getSelectedRow(), 7);
 
-                var	filasModificadas = this.reservaController.modificar(fecha_entrada, fecha_salida, valor, tipo_habitacion, forma_pago, id);
+                var	filasModificadas = this.reservaController.modificar(fecha_entrada, fecha_salida, valor, tipo_habitacion,num_habitacion, forma_pago,id_pago,id);
                 
                 JOptionPane.showMessageDialog(this, String.format("%d RESERVA - modificado con éxito!", filasModificadas));
                 

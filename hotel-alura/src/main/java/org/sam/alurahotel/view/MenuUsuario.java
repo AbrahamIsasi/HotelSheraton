@@ -189,8 +189,8 @@ public class MenuUsuario extends JFrame {
 	    contentPane.add(panelFecha);
 	    panelFecha.setLayout(null);
 	    
-	    JLabel lblNewLabel_1 = new JLabel("Sistema de reservas Hotel Alura");
-	    lblNewLabel_1.setBounds(180, 11, 356, 42);
+	    JLabel lblNewLabel_1 = new JLabel("Sistema de reservas Sheraton Hotel");
+	    lblNewLabel_1.setBounds(170, 11, 400, 42);
 	    panelFecha.add(lblNewLabel_1);
 	    lblNewLabel_1.setForeground(Color.WHITE);
 	    lblNewLabel_1.setFont(new Font("Ubuntu", Font.PLAIN, 24));
@@ -206,36 +206,45 @@ public class MenuUsuario extends JFrame {
 	    
 	    JLabel lblNewLabel = new JLabel("Bienvenido");
 	    lblNewLabel.setFont(new Font("Ubuntu", Font.BOLD, 24));
-	    lblNewLabel.setBounds(302, 234, 147, 46);
+	    lblNewLabel.setBounds(302, 200, 147, 46);
 	    contentPane.add(lblNewLabel);
 	    
-	    String textoDescripcion = "<html><body>Sistema de reserva de hotel. Controle y administre de forma óptima y fácil <br> el flujo de reservas y de huespédes del hotel   </body></html>";
+	    String textoDescripcion = "<html><body>El Sheraton es una cadena de hoteles de lujo reconocida por su elegancia y altos estándares de servicio. Ubicado en zonas estratégicas de grandes ciudades, cada hotel de la cadena ofrece una experiencia sofisticada.</body></html>";
 	    JLabel labelDescripcion = new JLabel(textoDescripcion);
 	    labelDescripcion.setFont(new Font("Ubuntu", Font.PLAIN, 17));
-	   
-	    labelDescripcion.setBounds(312, 291, 598, 66);
+	    labelDescripcion.setBounds(312, 250, 598, 80);//66
 	    contentPane.add(labelDescripcion);
 	    
-	    String textoDescripcion1 = "<html><body> Esta herramienta le permitirá llevar un control completo y detallado de sus reservas y huéspedes, tendrá acceso a heramientas especiales para tareas específicas como lo son:</body></html>";
+	    String textoDescripcion1 = "<html><body>Tenemos un espacio privado que permite acceso a salas de reunión, desayunos complementarios y áreas de trabajo, ideal para combinar placer y productividad en un ambiente exclusivo y tranquilo. Todo esto hace que el Sheraton sea una opción preferida para quienes buscan comodidad y lujo. </body></html>";
 	    JLabel labelDescripcion_1 = new JLabel(textoDescripcion1);
 	    labelDescripcion_1.setFont(new Font("Ubuntu", Font.PLAIN, 17));
-	    labelDescripcion_1.setBounds(311, 345, 569, 88);
+	    labelDescripcion_1.setBounds(311, 339, 569, 88);
 	    contentPane.add(labelDescripcion_1);
 	    
-	    JLabel lblNewLabel_3 = new JLabel("- Registro de Reservas y Huéspedes");
+	    JLabel lblNewLabel_3 = new JLabel("1.- Habitaciones y Suites de Lujo:");
 	    lblNewLabel_3.setFont(new Font("Ubuntu", Font.PLAIN, 17));
 	    lblNewLabel_3.setBounds(312, 444, 295, 27);
 	    contentPane.add(lblNewLabel_3);
 	    
-	    JLabel lblNewLabel_3_1 = new JLabel("- Edición de Reservas y Huéspedes existentes");
+	    JLabel lblNewLabel_3_1 = new JLabel("2.- Restaurantes y Bares:");
 	    lblNewLabel_3_1.setFont(new Font("Ubuntu", Font.PLAIN, 17));
-	    lblNewLabel_3_1.setBounds(312, 482, 355, 27);
+	    lblNewLabel_3_1.setBounds(312, 474, 355, 27);
 	    contentPane.add(lblNewLabel_3_1);
-	    
-	    JLabel lblNewLabel_3_2 = new JLabel("- Eliminar todo tipo de registros");
+
+	    JLabel lblNewLabel_3_2 = new JLabel("3.- Sheraton Club (para miembros y huéspedes en suites:");
 	    lblNewLabel_3_2.setFont(new Font("Ubuntu", Font.PLAIN, 17));
-	    lblNewLabel_3_2.setBounds(312, 520, 295, 27);
+	    lblNewLabel_3_2.setBounds(312, 504, 355 , 27);
 	    contentPane.add(lblNewLabel_3_2);
+
+		JLabel lblNewLabel_3_3 = new JLabel("4.- Centro de Bienestar y Fitness:");
+		lblNewLabel_3_3.setFont(new Font("Ubuntu", Font.PLAIN, 17));
+		lblNewLabel_3_3.setBounds(312, 534, 295, 27);
+		contentPane.add(lblNewLabel_3_3);
+
+		JLabel lblNewLabel_3_4 = new JLabel("5.- Piscinas y Áreas Recreativas:");
+		lblNewLabel_3_4.setFont(new Font("Ubuntu", Font.PLAIN, 17));
+		lblNewLabel_3_4.setBounds(312, 564, 295, 27);
+		contentPane.add(lblNewLabel_3_4);
 	}
 	
 	private void headerMousePressed(java.awt.event.MouseEvent evt) {

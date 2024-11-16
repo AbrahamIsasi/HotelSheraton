@@ -17,7 +17,7 @@ public class ExportarDatos {
 
         // Crear la fila de encabezado para Reservas
         Row headerRow = sheet.createRow(0);
-        String[] encabezados = {"ID Reserva", "Fecha Entrada", "Fecha Salida", "Valor", "Tipo Habitacion", "Forma de Pago"};
+        String[] encabezados = {"ID Reserva", "Fecha Entrada", "Fecha Salida", "Valor", "Tipo Habitacion","Num. Habitacion", "Forma de Pago", "Estado de pago"};
         for (int i = 0; i < encabezados.length; i++) {
             headerRow.createCell(i).setCellValue(encabezados[i]);
         }
@@ -31,7 +31,9 @@ public class ExportarDatos {
             row.createCell(2).setCellValue(reserva.getFechaSalida().toString());
             row.createCell(3).setCellValue(reserva.getValor());
             row.createCell(4).setCellValue(reserva.getTipoHabitacion());
-            row.createCell(5).setCellValue(reserva.getFormaPago());
+            row.createCell(5).setCellValue(reserva.getNumeroHabitacion());
+            row.createCell(6).setCellValue(reserva.getFormaPago());
+            row.createCell(7).setCellValue(reserva.getEstadoReserva());
         }
 
         // Guardar el archivo

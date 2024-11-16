@@ -18,8 +18,8 @@ public class ReservaController {
 	}
 
 
-	public int modificar(String fecha_entrada, String fecha_salida, Double valor, String tipo_habitacion, String forma_pago, Long id) {
-		return reservaDao.modificar(fecha_entrada, fecha_salida, valor, tipo_habitacion, forma_pago, id);
+	public int modificar(String fecha_entrada, String fecha_salida, Double valor, String tipo_habitacion, String forma_pago, String num_habitacion ,String id_pago, Long id) {
+		return reservaDao.modificar(fecha_entrada, fecha_salida, valor, tipo_habitacion, forma_pago,num_habitacion,id_pago, id);
 	}
 
 	public int eliminar(Integer id) {
